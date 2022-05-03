@@ -1,0 +1,112 @@
+---
+title: "Ejecución_Presupuestal_Covid"
+author: "Maria Pia van Oordt López"
+date: '2022-05-03'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Falta:
+-Corroborar que esta sea la base
+-Identificar las variables que usare para la creación del indicador de eficiencia.
+-Solucionar el problema de asignación distrital de gastos
+-Unificación de las bases de datos del 2020,2021 y 2022
+-Definición del proceso de construcción 
+
+*Base de datos:"EJECUCIONPRESUPUESTAL_COVID"*
+  
+En esta base de datos encontramos el conjunto de datos publicados por el MEF(ministerio de Economia y finanzas) que corresponde a la Información del Presupuesto Institucional Modificado (PIM), y la ejecución de gasto en las fases de Compromiso, Devengado y Girado correspondiente a las Unidades Ejecutoras (UEs) del Gobierno Nacional, los Gobiernos Regionales y las Municipalidades de los Gobiernos Locales, sobre la distribución y ejecución de los recursos públicos para la lucha contra el COVID-19. Es decir, la ejecución presupuestal realizada por los tres niveles de gobierno destinado a la lucha contra el Covid-19 durante el periodo de la Pandemia del 2020 al 2022. Esta base de datos se actualiza de forma diaria y tiene información sobre XXX distritos lo cual es nuestra unidad de análisis. Esta base nos brinda información sobre los recursos asignados a distintas entidades en los tres niveles de gobierno lo cual permite hacer una comparación a nivel distrital para monitorear el avance de la ejecución del gasto y realizar un indice de eficiencia. Esta base de datos tiene diversas variables relevantes para esta investigación y para la construcción de la variable dependiente.
+
+
+```{r}
+library(rio)
+EJECUCIONPRESUPUESTAL_COVID=import("pcm_covid_2020-copia.csv")
+dim(EJECUCIONPRESUPUESTAL_COVID)
+names(EJECUCIONPRESUPUESTAL_COVID)
+
+```
+
+```{r}
+EJECUCIONPRESUPUESTAL_COVID$SEC_FUNC=as.factor(EJECUCIONPRESUPUESTAL_COVID$SEC_FUNC)
+str(EJECUCIONPRESUPUESTAL_COVID$SEC_FUNC)
+levels(EJECUCIONPRESUPUESTAL_COVID$SEC_FUNC)
+```
+
+```{r}
+EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA_NOMBRE=as.factor(EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA_NOMBRE)
+str(EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA_NOMBRE)
+levels(EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA_NOMBRE)
+```
+```{r}
+EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA_NOMBRE=as.factor(EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA_NOMBRE)
+str(EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA_NOMBRE)
+table(EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA_NOMBRE)
+```
+
+```{r}
+EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA=as.numeric(EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA)
+str(EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA)
+table(EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA)
+```
+
+
+```{r}
+tabla<-table(EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA_NOMBRE,EJECUCIONPRESUPUESTAL_COVID$MONTO_GIRADO)
+tabla
+frecuencias=tabla
+barplot(frecuencias)
+barplot(frecuencias, col="gold")
+# ponerle título a los ejes y al grafico
+barplot(frecuencias,col="green",
+        xlab=NULL,
+        ylab="Título eje y",
+        main="título")
+
+
+```
+
+```{r}
+filter(EJECUCIONPRESUPUESTAL_COVID, DISTRITO_EJECUTORA_NOMBRE=="MADRE DE DIOS")
+
+```
+
+
+```{r}
+EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA
+EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA_NOMBRE
+```
+
+```{r}
+str(EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA)
+str(EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA_NOMBRE)
+str(EJECUCIONPRESUPUESTAL_COVID$TIPO_GOBIERNO)
+
+```
+
+```{r}
+EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA_NOMBRE=as.factor(EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA_NOMBRE)
+str(EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA_NOMBRE)
+```
+```{r}
+EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA=as.numeric(EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA)
+str(EJECUCIONPRESUPUESTAL_COVID$DISTRITO_EJECUTORA)
+```
+
+
+```{r}
+EJECUCIONPRESUPUESTAL_COVID$TIPO_GOBIERNO=as.factor(EJECUCIONPRESUPUESTAL_COVID$TIPO_GOBIERNO)
+str(EJECUCIONPRESUPUESTAL_COVID$TIPO_GOBIERNO)
+levels(EJECUCIONPRESUPUESTAL_COVID$TIPO_GOBIERNO)
+```
+
+```{r}
+library(rio)
+EJECUCIONPRESUPUESTAL_COVID2021=import("pcm_covid_2021-copia.csv")
+dim(EJECUCIONPRESUPUESTAL_COVID2021)
+names(EJECUCIONPRESUPUESTAL_COVID2021)
+```
+
+```
+
